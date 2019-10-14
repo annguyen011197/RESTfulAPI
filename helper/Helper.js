@@ -35,7 +35,7 @@ module.exports = {
     safe: function(obj, evalFunc, def) {
         return optional(obj, evalFunc, def)
     },
-    promise: function(promise, p1, p2) {
-        return promiseLog(promise, p1, p2)
+    promise: function(p, p1, p2) {
+        return promiseLog(p, p1, p2)
     }
 }

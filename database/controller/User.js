@@ -2,11 +2,13 @@ var User = require('../model/User').User;
 var safe = require('../../helper/Helper').safe
 var promise = require('../../helper/Helper').promise
 
-module.exports = function CreateAccount(value) {
-    console.log(value)
-    let user = new User({
-        username: value.username, 
-        password: value.password
-    })
-    return user.save()
+module.exports = {
+    create: function (value) {
+        let username = safe(value, value => value.username, "")
+        let password = safe(value, value => value.password, "")
+        let user = new User()
+        user.username = username
+        user.password = user.generateHash(password)
+        return user.save()
+    }
 }

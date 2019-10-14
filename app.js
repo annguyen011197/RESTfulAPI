@@ -3,16 +3,20 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var mongoose = require('mongoose');
+var passport = require('passport')
 
 var indexRouter = require('./routes/index');
 var userRouter = require('./routes/user');
-
+var meRouter = require('./routes/me')
+require('./config/passport')(passport)
 var app = express();
 
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(passport.initialize())
+app.use(passport.session()) 
 
 mongoose.connect('mongodb://127.0.0.1:27017/admin', {useNewUrlParser: true});
 
@@ -27,8 +31,8 @@ db.once('open', function() {
   console.log("Connected")
 });
 
-// app.use('/', indexRouter);
 app.use('/user', userRouter);
+app.use('/me', passport.authenticate('jwt', {session: false}), meRouter);
 
 module.exports = app;
 
