@@ -18,7 +18,7 @@ app.use(cookieParser());
 app.use(passport.initialize())
 app.use(passport.session()) 
 
-mongoose.connect('mongodb://127.0.0.1:27017/admin', {useNewUrlParser: true});
+mongoose.connect('mongodb+srv://annguyen:1234567minhan@kikibookstore-9aubp.mongodb.net/DeadLine', {useNewUrlParser: true});
 
 app.listen(8080,() => {
     console.log("Listening at 8080")
