@@ -16,23 +16,28 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(passport.initialize())
-app.use(passport.session()) 
+app.use(passport.session())
 
-mongoose.connect('mongodb+srv://annguyen:1234567minhan@kikibookstore-9aubp.mongodb.net/DeadLine', {useNewUrlParser: true});
+mongoose.connect('mongodb+srv://annguyen:1234567minhan@kikibookstore-9aubp.mongodb.net/DeadLine', { useNewUrlParser: true });
+app.use(function (req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
 
-app.listen(8080,() => {
-    console.log("Listening at 8080")
+app.listen(8080, () => {
+  console.log("Listening at 8080")
 })
 app.use(express.static(path.join(__dirname, 'public')));
 
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
-db.once('open', function() {
+db.once('open', function () {
   console.log("Connected")
 });
 
 app.use('/user', userRouter);
-app.use('/me', passport.authenticate('jwt', {session: false}), meRouter);
+app.use('/me', passport.authenticate('jwt', { session: false }), meRouter);
 
 module.exports = app;
 
