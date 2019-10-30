@@ -4,6 +4,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var mongoose = require('mongoose');
 var passport = require('passport')
+var cors = require('cors')
 
 var indexRouter = require('./routes/index');
 var userRouter = require('./routes/user');
@@ -19,11 +20,7 @@ app.use(passport.initialize())
 app.use(passport.session())
 
 mongoose.connect('mongodb+srv://annguyen:1234567minhan@kikibookstore-9aubp.mongodb.net/DeadLine', { useNewUrlParser: true });
-app.use(function (req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  next();
-});
+app.use(cors());
 
 app.listen(8080, () => {
   console.log("Listening at 8080")
